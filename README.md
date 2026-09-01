@@ -118,17 +118,25 @@ LandingPage2/
 - `public/app.js` — hero CTA smooth-scroll behaviour.
 - `public/scripts/main.js` — contact form client-side validation and submit handling.
 
-### Hosting notes
+## Hosting notes
 
-Any static host works: GitHub Pages, Netlify, Vercel, Cloudflare Pages, S3 + CloudFront, or a plain Nginx/Apache server. Upload the contents of `public/` (or point your host at that directory) and the site is live — no build, no rewrites, no environment variables required.
+Any static host works: GitHub Pages, Netlify, Vercel, Cloudflare Pages, S3 + CloudFront, or a plain Nginx/Apache server. Upload the contents of `public/` (or point your host at that directory) and the site is live — no build, no rewrites, no environment variables.
+
+## Design notes
+
+- **Shared design tokens** — colors, spacing, radii, and typography are declared as CSS custom properties in `base.css` so every section reads from one source of truth.
+- **Section-level stylesheets** — hero, features, and contact each own their own stylesheet for isolation and easier review.
+- **Layered backgrounds** — each section combines a base color with one or more radial gradients/glows, producing a cohesive look across hero, features, and contact.
+- **Progressive enhancement** — vanilla JS handles hero smooth-scroll and contact-form validation; the page remains fully usable with scripts disabled because all content and navigation are semantic HTML.
+- **Responsive by default** — CSS grid plus media queries collapse the features grid (3 → 2 → 1 columns) and stack the hero columns on small viewports.
 
 ## What was built
 
-The current board delivered a complete, production-ready Launchpad landing page end-to-end:
+This board delivered the complete Launchpad landing page end-to-end:
 
-- **Hero section** — strong display headline with highlighted phrase, supporting subheadline, primary and ghost CTAs, meta line, layered gradient + grid + glow background, and a stylised product preview card. Fully responsive across desktop, tablet, and mobile.
-- **Features grid** — 3-column responsive grid of six feature cards (Ship in minutes, Pixel-perfect design, Accessible by default, Responsive everywhere, Production-ready, Easy to customize) with icon tiles, consistent spacing, and graceful collapse to 2 columns at 960px and a single column below 640px.
-- **Contact form** — accessible form with Name, Email, and Message fields (proper input types, labels, autocomplete, and required attributes), inline client-side validation with focus rings, and a polite live-region status line that confirms success or surfaces errors.
-- **Styling restoration and polish** — design tokens and section styles are shared via `public/styles/base.css`; each section stylesheet layers a consistent gradient/glow treatment and modern typography on top, producing a cohesive look across hero, features, and contact.
-- **Progressive enhancement** — vanilla JS handles hero smooth-scroll and contact-form validation; the page remains fully usable with scripts disabled because all content and navigation are semantic HTML.
-- **Project documentation** — this README, plus the Helix board bookkeeping files, capture how to run the site, how it is structured, and what the current board delivered.
+- **Hero section** (`public/index.html`, `public/styles/hero.css`, `public/app.js`) — eyebrow tag, headline with highlighted span, subheadline, primary + ghost CTAs, meta line, layered gradient/grid background, faux product preview card, and a single-column responsive breakpoint. Smooth-scroll behaviour wired up for both CTAs.
+- **Features grid** (`public/index.html`, `public/styles/features.css`) — responsive 3-column grid of six feature cards (Ship in minutes, Pixel-perfect design, Accessible by default, Responsive everywhere, Production-ready, Easy to customize), each with an icon tile, title, and description. Collapses to 2 columns at ~960px and 1 column below 640px.
+- **Contact form** (`public/index.html`, `public/styles/contact.css`, `public/scripts/main.js`) — name, email, and message fields with semantic input types, autocomplete, and required attributes; inline validation messages; a polite live region for submit status; focus rings; and submit handling that confirms receipt and resets the form.
+- **Design system foundation** (`public/styles/base.css`) — reset, typography scale (Inter + Sora), color/spacing/radius tokens, and shared primitives (`.container`, `.btn`, `.visually-hidden`) that every section consumes.
+- **Styling restoration** — landing page styling was repaired and finalized so hero, features, and contact render with polished typography, a subtle background treatment, and a consistent visual hierarchy across all sections.
+- **Project documentation** — this README, plus the Helix board bookkeeping files (`HelixCardInventory.md`, `HelixGrandProjectSummary.md`), capture how to run the site, how it is structured, and what the current board delivered.

@@ -1,0 +1,114 @@
+<!-- helix: public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="LandingPage2 — Build, launch, and grow your product faster with a modern, polished platform designed for founders and teams." />
+    <meta name="theme-color" content="#0b1020" />
+    <title>LandingPage2 — Launch your product with confidence</title>
+
+    <!-- Modern web fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header" role="banner">
+        <div class="container header-inner">
+            <a class="brand" href="#" aria-label="LandingPage2 home">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" width="28" height="28" focusable="false">
+                        <defs>
+                            <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#7c5cff" />
+                                <stop offset="100%" stop-color="#22d3ee" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="2" y="2" width="28" height="28" rx="8" fill="url(#brandGrad)" />
+                        <path d="M10 22 L16 8 L22 22 M12.5 17 H19.5" stroke="#0b1020" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
+                </span>
+                <span class="brand-name">LandingPage2</span>
+            </a>
+
+            <nav class="primary-nav" aria-label="Primary">
+                <a href="#features">Features</a>
+                <a href="#contact">Contact</a>
+                <a class="nav-cta" href="#hero-cta">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- @helix:story USER-755000 — Build landing hero section -->
+        <section class="hero" id="hero" aria-labelledby="hero-title">
+            <div class="hero-bg" aria-hidden="true">
+                <div class="hero-bg-gradient"></div>
+                <div class="hero-bg-grid"></div>
+                <div class="hero-bg-glow hero-bg-glow--a"></div>
+                <div class="hero-bg-glow hero-bg-glow--b"></div>
+                <div class="hero-bg-glow hero-bg-glow--c"></div>
+            </div>
+
+            <div class="container hero-inner">
+                <p class="eyebrow">
+                    <span class="eyebrow-dot" aria-hidden="true"></span>
+                    New: Launch faster with v2
+                </p>
+
+                <h1 id="hero-title" class="hero-title">
+                    Ship a landing page
+                    <span class="hero-title-accent">your users will love.</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    A modern, polished hero section that converts visitors into customers.
+                    Clear messaging, accessible design, and a beautiful gradient backdrop —
+                    ready for your next launch.
+                </p>
+
+                <div class="hero-actions">
+                    <a id="hero-cta" class="btn btn-primary" href="#contact">
+                        Get Started
+                        <svg class="btn-icon" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false">
+                            <path d="M4 10h11M11 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        </svg>
+                    </a>
+                    <a class="btn btn-ghost" href="#features">See Features</a>
+                </div>
+
+                <ul class="hero-meta" aria-label="Highlights">
+                    <li>
+                        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+                            <path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        </svg>
+                        No credit card required
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+                            <path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        </svg>
+                        Free 14-day trial
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+                            <path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        </svg>
+                        Cancel anytime
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="./app.js" defer></script>
+</body>
+</html>

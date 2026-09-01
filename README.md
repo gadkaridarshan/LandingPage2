@@ -1,8 +1,8 @@
 # LandingPage2
 
-A polished, accessible single-page marketing site for a modern product launch. LandingPage2 delivers a cohesive hero section, a responsive features grid, and a validated contact form in semantic HTML with progressive-enhancement JavaScript — no build step required.
+A polished, accessible single-page marketing site for a modern product launch. LandingPage2 delivers a cohesive **hero section**, a responsive **features grid**, and a validated **contact form** in semantic HTML with progressive-enhancement JavaScript — **no build step required**.
 
-The site is intentionally lightweight: a single `public/index.html` document, a small set of modular stylesheets, and a pair of vanilla JS modules that wire up the hero CTA smooth-scroll, dynamic footer year, and inline contact-form validation. Everything is plain static assets and can be hosted on any static-file server or CDN — no package manager, no `npm install`, no environment variables, and no external services required.
+The site is intentionally lightweight: a single `public/index.html` document, a small set of modular stylesheets under `public/styles/`, and a pair of vanilla JS modules (`public/app.js` for the hero CTA smooth-scroll and `public/scripts/main.js` for the dynamic footer year and inline contact-form validation). Everything is plain static assets and can be hosted on any static-file server or CDN — no package manager, no `npm install`, no environment variables, and no external services required.
 
 ---
 
@@ -35,7 +35,7 @@ Follow these steps to serve the site from the `public/` directory and verify it 
    python3 -m http.server 8000
    ```
 
-   Using **Node.js** (no global install required):
+   Using **Node.js with `serve`** (no global install required):
 
    ```bash
    npx serve public -l 8000
@@ -70,4 +70,46 @@ Follow these steps to serve the site from the `public/` directory and verify it 
 
 ## Project Structure
 
-All site assets live under the `public/` directory and are served as plain static files:
+All site assets live under the `public/` directory and are served as plain static files. Top-level files outside `public/` are project documentation and tooling configuration only.
+
+```text
+LandingPage2/
+├── README.md                       # This file — overview, prerequisites, run steps, structure
+├── HelixCardInventory.md           # Helix board card inventory for this project
+├── HelixGrandProjectSummary.md     # Cross-card summary of board progress
+├── .gitignore                      # Git ignore rules
+├── .vscode/
+│   └── settings.json               # Editor / Helix model preferences
+└── public/                         # All user-facing static assets (served as-is)
+    ├── index.html                  # Single-page document: hero + features + contact + footer
+    ├── app.js                      # Hero CTA smooth-scroll (respects prefers-reduced-motion)
+    ├── styles.css                  # Base reset + design tokens (colors, spacing, type, radii)
+    ├── styles/
+    │   ├── base.css                # Global typography, layout primitives, footer styles
+    │   ├── hero.css                # Hero gradient background, headline, CTAs, meta strip
+    │   ├── features.css            # Features grid + feature-card hover/focus states
+    │   └── contact.css             # Contact section background + form input styles
+    └── scripts/
+        └── main.js                 # Dynamic footer year + contact form validation/submit
+```
+
+**Path notes:**
+
+- `public/index.html` — the only HTML document; loads all stylesheets and both JS modules.
+- `public/styles.css` — top-level stylesheet (base/tokens entry point) referenced by `index.html`.
+- `public/styles/*.css` — section-specific modular stylesheets (hero, features, contact, base).
+- `public/app.js` — top-level module referenced by `index.html` for hero CTA behaviour.
+- `public/scripts/main.js` — secondary module referenced by `index.html` for the footer year and contact form.
+- `HelixCardInventory.md` and `HelixGrandProjectSummary.md` — Helix board bookkeeping; not served to the browser.
+
+---
+
+## What was built
+
+This board delivered the three core sections of the landing page as a cohesive, accessible single-page site:
+
+- **Landing hero section** — Polished gradient background (layered radial gradients over a deep navy base with floating blurred orbs and a masked grid texture), modern typography (Space Grotesk headline with a tri-tone gradient accent + Inter body copy), headline + subheadline + dual CTA layout, accessible contrast ratios, and a three-item meta strip reinforcing the static / a11y / no-build value proposition.
+- **Features section grid** — Three responsive feature cards (*Lightning fast*, *Layered design*, *Accessible by default*) rendered as a CSS Grid that collapses gracefully on tablet and mobile breakpoints. Each card pairs a soft-tinted icon tile with a concise title and description, with hover and focus-within lift states that match the site's interaction language.
+- **Contact form section** — Labelled Name, Email, and Message inputs with appropriate `type`, `autocomplete`, and `required` attributes, inline validation messages, a styled status line, and a "Send message" submit button that resets the form on success. The section uses the same gradient background family as the hero for visual continuity and is responsive across viewports.
+
+Together with the modular `public/styles/` + `public/scripts/` structure and the `public/app.js` smooth-scroll behaviour, the result is a complete, dependency-free marketing landing page that can be hosted on any static-file server.

@@ -1,48 +1,60 @@
 /* helix: public/styles/features.css */
-/* Launchpad — features section grid. */
+/* @helix:story [USER-325000, USER-375000] Features grid styling */
 
 .features {
   position: relative;
-  padding: 96px 0;
-  isolation: isolate;
+}
+
+.features__header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto var(--space-7);
+}
+
+.features__title {
+  margin-bottom: var(--space-4);
+}
+
+.features__subtitle {
+  color: var(--color-text-soft);
+  font-size: 1.0625rem;
+  margin-bottom: 0;
 }
 
 .features__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin-top: 56px;
+  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 .feature-card {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 28px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  padding: var(--space-6);
+  transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
   overflow: hidden;
+  isolation: isolate;
 }
 
 .feature-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(600px 200px at 0% 0%, rgba(124, 92, 255, 0.10), transparent 60%);
+  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 0%), rgba(124, 92, 255, 0.12), transparent 40%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition);
   pointer-events: none;
+  z-index: -1;
 }
 
 .feature-card:hover,
 .feature-card:focus-within {
   transform: translateY(-4px);
   border-color: var(--color-border-strong);
-  box-shadow: var(--shadow-lg);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-md);
 }
 
 .feature-card:hover::before,
@@ -51,16 +63,16 @@
 }
 
 .feature-card__icon {
-  width: 48px;
-  height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  color: #ffffff;
-  background: linear-gradient(135deg, rgba(124, 92, 255, 0.85) 0%, rgba(34, 211, 238, 0.85) 100%);
-  box-shadow: 0 8px 20px rgba(124, 92, 255, 0.35);
-  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(124, 92, 255, 0.18) 0%, rgba(25, 194, 255, 0.18) 100%);
+  border: 1px solid var(--color-border-strong);
+  margin-bottom: var(--space-4);
+  color: var(--color-brand-strong);
 }
 
 .feature-card__icon svg {
@@ -70,38 +82,21 @@
 
 .feature-card__title {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 1.125rem;
   font-weight: 700;
-  line-height: 1.25;
+  margin-bottom: var(--space-2);
   color: var(--color-text);
-  margin: 4px 0 0;
 }
 
 .feature-card__description {
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--color-text-muted);
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
   margin: 0;
 }
 
-/* Responsive breakpoints */
-@media (max-width: 960px) {
-  .features__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 600px) {
-  .features {
-    padding: 72px 0;
-  }
+@media (max-width: 640px) {
   .features__grid {
     grid-template-columns: 1fr;
-    gap: 16px;
-    margin-top: 40px;
-  }
-  .feature-card {
-    padding: 22px;
   }
 }

@@ -54,14 +54,15 @@ Follow these steps to serve the site from the `public/` directory and verify it 
    ```
 
 3. **Verify the hero section.** You should see:
-   - An eyebrow tag reading **"New · Launchpad v1.0"** in a pill.
-   - A large display headline: **"Ship a landing page that converts in an afternoon."** with "converts" highlighted.
+   - An eyebrow tag reading **"Now in private beta"** in a pill.
+   - A large display headline: **"Ship launches that actually convert"** with "actually convert" highlighted.
    - A subheading paragraph below the headline.
-   - Two call-to-action buttons side-by-side: a primary **"Get started — it's free"** and a ghost **"See the features"**.
-   - A three-item highlight row: **Zero build step · Accessible by default · Drop-in for any static host**.
+   - Two call-to-action buttons side-by-side: a primary **"Request early access"** and a ghost **"See what's inside"**.
+   - A meta line **"No credit card · 2-minute setup"** beneath the CTAs.
    - A layered background with a faint grid mask and three soft purple/cyan glows.
+   - A stylised product preview card on the right (title bar with traffic-light dots + faux dashboard panels).
 
-4. **Verify the features section** (scroll down or click **"See the features"**). You should see:
+4. **Verify the features section** (scroll down or click **"See what's inside"**). You should see:
    - A section eyebrow **"Features"** and the heading **"Everything you need to launch — nothing you don't."**
    - A 3-column responsive grid of six feature cards, each with an icon tile, a title, and a description:
      - Ship in minutes
@@ -73,15 +74,14 @@ Follow these steps to serve the site from the `public/` directory and verify it 
    - The grid collapses to 2 columns around 960px and to a single column below 640px.
 
 5. **Verify the contact section** (scroll down or click the **"Get started"** CTA). You should see:
-   - A heading **"Let's build something people want."** with a short subheading.
+   - A heading **"Let's talk about your launch"** with a short subheading.
    - A form with **Name**, **Email**, and **Message** fields plus a **"Send message"** primary button.
    - Each field shows a focus ring; required fields block empty submission and show inline validation messages.
    - A polite live region under the button reports success or error status.
 
 6. **Verify the interactive behaviour:**
-   - Click the primary hero CTA ("Get started — it's free") — it smooth-scrolls to the Contact section.
-   - Click the ghost CTA ("See the features") — it smooth-scrolls to the Features section.
-   - Scroll to the footer — the copyright year should reflect the current year.
+   - Click the primary hero CTA ("Request early access") — it smooth-scrolls to the Contact section.
+   - Click the ghost CTA ("See what's inside") — it smooth-scrolls to the Features section.
    - Submit the contact form with empty fields — inline validation messages appear under each field and the status line prompts you to fix the errors.
    - Submit the contact form with valid data — a "Thanks! Your message has been received." status appears and the form resets.
 
@@ -111,31 +111,32 @@ LandingPage2/
     │   ├── features.css            # Features grid + feature cards
     │   └── contact.css             # Contact section + form styling
     └── scripts/
-        └── main.js                 # Footer year + contact form validation
+        └── main.js                 # Contact form validation + progressive enhancements
 ```
 
 ### Path notes:
 
-- `public/index.html` — the only HTML document; loads Inter + Sora from Google Fonts, then the four section stylesheets, then the two JS modules (`scripts/main.js` first, `app.js` second, both `defer`).
-- `public/styles/base.css` — defines CSS custom properties for colors, type, spacing, radius, and shadows, plus a small reset and `.container` layout primitive used by every section.
-- `public/styles/hero.css` — hero background grid + glows, eyebrow pill, headline, subheading, CTAs, and bullets.
-- `public/styles/features.css` — features header and the responsive 3 / 2 / 1-column feature-card grid.
-- `public/styles/contact.css` — contact section layout, fields, inputs, focus states, submit button, and the live status region.
-- `public/app.js` — top-level module referenced by `index.html` for hero CTA smooth-scroll behaviour (respects `prefers-reduced-motion`).
-- `public/scripts/main.js` — secondary module referenced by `index.html` for the dynamic footer year and inline contact-form validation.
-- `public/styles.css` — intentionally empty placeholder kept so the legacy reference path resolves.
-- `HelixCardInventory.md` and `HelixGrandProjectSummary.md` — Helix board bookkeeping; not served to the browser.
+- `public/index.html` — the only HTML document; links every stylesheet and script. Contains the skip link, site header, hero, features grid, contact form, and footer.
+- `public/styles/base.css` — design tokens (colors, spacing, radii), reset, typography, and shared layout primitives (`.container`, `.btn`, `.visually-hidden`).
+- `public/styles/hero.css` — hero section: layered background, grid, glows, headline, CTAs, visual card, and the responsive breakpoint.
+- `public/styles/features.css` — features section: 3-column responsive grid, feature card styling, hover states, and collapse breakpoints.
+- `public/styles/contact.css` — contact section: form layout, input/textarea/button styling, focus rings, validation states, and background treatment.
+- `public/app.js` — hero CTA smooth-scroll behaviour.
+- `public/scripts/main.js` — contact form client-side validation and submit handling.
+
+### Hosting notes
+
+Any static host works: GitHub Pages, Netlify, Vercel, Cloudflare Pages, S3 + CloudFront, or a plain Nginx/Apache server. Upload the contents of `public/` (or point your host at that directory) and the site is live — no build, no rewrites, no environment configuration required.
 
 ---
 
 ## What was built
 
-This board delivered the three core sections of the landing page as a complete, styled, responsive, accessible product site. The work was tracked across the following deliverables:
+This board delivered a complete, production-quality three-section landing page plus a restored design system:
 
-- **Hero section** (`public/index.html` + `public/styles/hero.css`) — eyebrow pill, display headline with an accent span, subheading, primary and ghost CTAs, and a three-item highlight row. Backed by a layered background made of a radial-masked grid plus three soft brand/cyan glows. The CTAs smooth-scroll to the Features and Contact sections via `public/app.js`, with `prefers-reduced-motion` respected.
-- **Features grid** (`public/index.html` + `public/styles/features.css`) — a six-card responsive grid (3 columns → 2 columns at ≤960px → 1 column at ≤640px). Each card has an icon tile, a title, and a short description, rendered with a subtle gradient surface, border, and lift-on-hover/focus shadow that reveals an accent glow.
-- **Contact form section** (`public/index.html` + `public/styles/contact.css`) — labelled form with Name, Email, and Message fields, proper input types and autocomplete attributes, `required` constraints, focus styles, and a primary "Send message" button. Inline validation and the live status region are handled by `public/scripts/main.js`, which also renders the dynamic footer year.
-- **Design system foundation** (`public/styles/base.css`) — a single source of truth for colors, typography (Inter + Sora), spacing, radius, shadows, and the `.container` layout primitive used by every section. Rebranding the whole site is a matter of swapping a handful of CSS custom properties.
-- **Author complete project README** — this document, covering prerequisites, run steps, project structure, and a deliverables summary.
-
-The end result is a portable, dependency-free static landing page: serve `public/` from any static-file server or CDN and it just works, with progressive-enhancement JS handling smooth-scroll, the footer year, and inline form validation, and with all styling living in plain, editable CSS.
+- **Hero section** — a layered, gradient-and-grid background with three soft glows, an eyebrow tag, a display headline with an accent span, a subheading, primary and ghost CTAs, a meta line, and a stylised product preview card. Fully responsive across desktop, tablet, and mobile breakpoints.
+- **Features section grid** — a 3-column responsive grid of six icon/title/description feature cards, visually aligned with the hero CTA and contact form styling. The grid collapses gracefully to 2 columns around 960px and to a single column below 640px.
+- **Contact form section** — name, email, and message fields with proper input types, `autocomplete` and `required` attributes, inline client-side validation, a submit button, and a polite live region for success/error status. Styling matches the hero and features sections.
+- **Design tokens and layout primitives** — a single source of truth in `base.css` for color, spacing, radius, typography, and shared classes (`.container`, `.btn`, `.visually-hidden`) so every section uses consistent design language.
+- **Accessibility baseline** — semantic landmarks, labelled controls, focus rings, reduced-motion media query, skip link, and ARIA live regions for form status.
+- **Project documentation** — this README, with prerequisites, run steps, verification checklist, and a full project structure map.

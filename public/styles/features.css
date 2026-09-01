@@ -1,156 +1,65 @@
-/* @helix:story USER-752000 — features section grid styles
- * Responsive grid of feature cards (icon + title + short description).
- * Aligned cleanly across mobile / tablet / desktop breakpoints.
- */
-
+/* helix: public/styles/features.css */
 .features {
-  padding-block: clamp(56px, 9vw, 110px);
-  position: relative;
+  padding-block: var(--space-9);
+  background:
+    radial-gradient(800px 400px at 50% 0%, rgba(124, 92, 255, 0.08), transparent 70%);
 }
 
-.features-grid {
+.features__grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-}
-
-/* Cards align to a clean track at each breakpoint */
-@media (min-width: 560px) {
-  .features-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (min-width: 880px) {
-  .features-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
-  }
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
 }
 
 .feature-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06),
-    rgba(255, 255, 255, 0.02)
-  );
-  border: 1px solid var(--border);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
-    0 20px 40px rgba(7, 10, 30, 0.35);
-  transition: transform 0.2s ease, border-color 0.2s ease,
-    box-shadow 0.2s ease, background 0.2s ease;
-  overflow: hidden;
-  isolation: isolate;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  transition: transform var(--transition), background var(--transition),
+    border-color var(--transition), box-shadow var(--transition);
 }
-
-.feature-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(124, 92, 255, 0.5),
-    rgba(45, 212, 191, 0.5) 40%,
-    transparent 70%
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-
 .feature-card:hover,
 .feature-card:focus-within {
   transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 24px 50px rgba(7, 10, 30, 0.5),
-    0 0 0 1px rgba(124, 92, 255, 0.25);
+  background: var(--color-surface-strong);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+.feature-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  margin-bottom: var(--space-4);
+}
+.feature-card__icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.feature-card__title {
+  font-size: var(--fs-xl);
+  margin-bottom: var(--space-2);
+}
+.feature-card__copy {
+  color: var(--color-text-muted);
+  margin: 0;
 }
 
-.feature-card:hover::before,
-.feature-card:focus-within::before {
-  opacity: 1;
+@media (max-width: 879px) {
+  .features__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
-
-.feature-icon {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(
-    135deg,
-    rgba(124, 92, 255, 0.25),
-    rgba(45, 212, 191, 0.2)
-  );
-  border: 1px solid rgba(124, 92, 255, 0.35);
-  color: #cdb8ff;
-  margin-bottom: 4px;
-  position: relative;
-  z-index: 1;
-}
-
-.feature-icon svg {
-  width: 22px;
-  height: 22px;
-}
-
-.feature-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  position: relative;
-  z-index: 1;
-}
-
-.feature-desc {
-  color: var(--text-muted);
-  font-size: 0.98rem;
-  line-height: 1.55;
-  position: relative;
-  z-index: 1;
-}
-
-/* Slight stagger accent on first card to keep visual rhythm */
-.feature-card:nth-child(3n + 1) .feature-icon {
-  background: linear-gradient(
-    135deg,
-    rgba(124, 92, 255, 0.3),
-    rgba(244, 114, 182, 0.2)
-  );
-  border-color: rgba(124, 92, 255, 0.4);
-  color: #e3d3ff;
-}
-.feature-card:nth-child(3n + 2) .feature-icon {
-  background: linear-gradient(
-    135deg,
-    rgba(45, 212, 191, 0.28),
-    rgba(124, 92, 255, 0.18)
-  );
-  border-color: rgba(45, 212, 191, 0.4);
-  color: #b8f0e6;
-}
-.feature-card:nth-child(3n + 3) .feature-icon {
-  background: linear-gradient(
-    135deg,
-    rgba(244, 114, 182, 0.25),
-    rgba(124, 92, 255, 0.18)
-  );
-  border-color: rgba(244, 114, 182, 0.4);
-  color: #ffd0e8;
+@media (max-width: 559px) {
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
 }

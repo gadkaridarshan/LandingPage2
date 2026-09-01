@@ -1,5 +1,6 @@
 /* helix: public/styles/base.css */
 /* @helix:story [USER-325000] Design tokens, reset, typography, layout primitives */
+/* @helix:story [USER-708000] Provides shared tokens (.container, .btn, .visually-hidden) consumed by the hero */
 
 :root {
   /* Color tokens */

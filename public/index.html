@@ -2,158 +2,151 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Ship faster with a modern, accessible landing page template — clean hero, feature grid, and contact form in one lightweight static site." />
-  <meta name="theme-color" content="#0b1020" />
-  <title>Landing Page</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
-    rel="stylesheet"
-  />
-
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="styles/base.css" />
-  <link rel="stylesheet" href="styles/hero.css" />
-  <link rel="stylesheet" href="styles/features.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LandingPage2 — Launch your next idea</title>
+  <meta name="description" content="A pixel-perfect, dependency-free landing page: hero, features grid, and contact form." />
+  <script src="./app.js" defer></script>
+  <script src="./scripts/main.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to main content</a>
+  <a href="#main">Skip to main content</a>
 
-  <header class="site-header">
-    <div class="container site-header__inner">
-      <a href="#" class="brand" aria-label="Landing Page home">
-        <span class="brand__mark" aria-hidden="true"></span>
-        <span class="brand__name">Landing Page</span>
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="#features">Features</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
+  <header>
+    <p>LandingPage2</p>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main id="main">
-    <!-- ===== Hero section ===== -->
-    <!-- @helix:story USER-708000 -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__bg" aria-hidden="true">
-        <div class="hero__orb hero__orb--a"></div>
-        <div class="hero__orb hero__orb--b"></div>
-        <div class="hero__orb hero__orb--c"></div>
-        <div class="hero__grid"></div>
-      </div>
+    <!-- Hero section -->
+    <section id="hero" aria-labelledby="hero-title">
+      <p><small>Built for teams that ship</small></p>
+      <h1 id="hero-title">
+        Launch your next idea with a pixel-perfect landing page.
+      </h1>
+      <p>
+        A polished, accessible single-page site with a hero, features grid, and validated
+        contact form — no build step required.
+      </p>
+      <p>
+        <a href="#features" id="hero-cta" data-scroll>Explore features</a>
+        <a href="#contact" data-scroll>Get in touch</a>
+      </p>
+      <ul>
+        <li>100% static</li>
+        <li>A11y ready</li>
+        <li>0 build steps</li>
+      </ul>
+    </section>
 
-      <div class="container hero__inner">
-        <p class="hero__eyebrow">
-          <span class="hero__dot" aria-hidden="true"></span>
-          Built for teams that ship
+    <!-- Features section -->
+    <section id="features" aria-labelledby="features-title">
+      <header>
+        <p><small>Features</small></p>
+        <h2 id="features-title">Everything you need to launch</h2>
+        <p>
+          Three opinionated building blocks — fast to load, easy to customise,
+          accessible out of the box.
         </p>
+      </header>
 
-        <h1 id="hero-title" class="hero__title">
-          Launch your next idea with a
-          <span class="hero__title-accent">pixel-perfect</span> landing page.
-        </h1>
-
-        <p class="hero__subheadline">
-          A modern, accessible static site with a confident hero, a scannable feature grid, and a frictionless contact form — ready to host anywhere in minutes.
-        </p>
-
-        <div class="hero__actions">
-          <a href="#features" class="btn btn--primary" data-cta="hero-primary">
-            Explore features
-            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <ul>
+        <li>
+          <span aria-hidden="true">
+            <!-- inline SVG icon: lightning -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+              <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
             </svg>
-          </a>
-          <a href="#contact" class="btn btn--ghost">Get in touch</a>
-        </div>
-
-        <ul class="hero__meta" role="list">
-          <li><strong>100%</strong> static</li>
-          <li><strong>A11y</strong> ready</li>
-          <li><strong>0</strong> build steps</li>
-        </ul>
-      </div>
-    </section>
-    <!-- ===== /Hero section ===== -->
-
-    <!-- ===== Features section ===== -->
-    <section id="features" class="features" aria-labelledby="features-title">
-      <div class="container">
-        <header class="section-header">
-          <p class="section-header__eyebrow">Features</p>
-          <h2 id="features-title" class="section-header__title">Everything you need to launch</h2>
-          <p class="section-header__sub">Three focused capabilities, polished end-to-end.</p>
-        </header>
-
-        <ul class="features__grid" role="list">
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="feature-card__title">Lightning fast</h3>
-            <p class="feature-card__body">Static-first delivery with no build pipeline — your visitors get content in milliseconds.</p>
-          </li>
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 4v6l4 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="feature-card__title">Accessible by default</h3>
-            <p class="feature-card__body">Semantic HTML, focus states, skip links, and AA contrast — built-in, not bolted on.</p>
-          </li>
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="feature-card__title">Drop-in deploy</h3>
-            <p class="feature-card__body">Host on any static CDN or object store — no runtime, no servers, no surprises.</p>
-          </li>
-        </ul>
-      </div>
+          </span>
+          <h3>Lightning fast</h3>
+          <p>
+            Zero dependencies, no build pipeline. Just open the file and ship.
+          </p>
+        </li>
+        <li>
+          <span aria-hidden="true">
+            <!-- inline SVG icon: layers -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+              <path d="M12 2 2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
+          </span>
+          <h3>Layered design</h3>
+          <p>
+            A modular stylesheet layout keeps each section isolated and easy to evolve.
+          </p>
+        </li>
+        <li>
+          <span aria-hidden="true">
+            <!-- inline SVG icon: accessibility -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+              <circle cx="12" cy="4" r="2" />
+              <path d="M19 8h-5v13" />
+              <path d="M10 8H5" />
+              <path d="M10 21v-6" />
+              <path d="M14 21v-6" />
+              <path d="M9 12h6" />
+            </svg>
+          </span>
+          <h3>Accessible by default</h3>
+          <p>
+            Semantic landmarks, labelled controls, focus styles, and reduced-motion respect.
+          </p>
+        </li>
+      </ul>
     </section>
 
-    <!-- ===== Contact section ===== -->
-    <!-- @helix:story USER-776000 -->
-    <section id="contact" class="contact" aria-labelledby="contact-title">
-      <div class="container">
-        <header class="section-header">
-          <p class="section-header__eyebrow">Contact</p>
-          <h2 id="contact-title" class="section-header__title">Tell us about your project</h2>
-          <p class="section-header__sub">We typically reply within one business day.</p>
-        </header>
+    <!-- Contact section -->
+    <section id="contact" aria-labelledby="contact-title">
+      <header>
+        <p><small>Contact</small></p>
+        <h2 id="contact-title">Tell us about your launch</h2>
+        <p>
+          Drop a note and we'll get back within one business day. No spam, ever.
+        </p>
+      </header>
 
-        <form class="contact-form" novalidate>
-          <div class="contact-form__row">
-            <label class="contact-form__field">
-              <span class="contact-form__label">Name</span>
-              <input class="contact-form__input" type="text" name="name" required autocomplete="name" />
-            </label>
-            <label class="contact-form__field">
-              <span class="contact-form__label">Email</span>
-              <input class="contact-form__input" type="email" name="email" required autocomplete="email" />
-            </label>
-          </div>
-          <label class="contact-form__field">
-            <span class="contact-form__label">Message</span>
-            <textarea class="contact-form__input contact-form__textarea" name="message" rows="5" required></textarea>
-          </label>
-          <button type="submit" class="btn btn--primary">Send message</button>
-          <p class="contact-form__status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
+      <form id="contact-form" novalidate>
+        <p>
+          <label for="contact-name">Name</label>
+          <input id="contact-name" name="name" type="text" autocomplete="name" required
+                 aria-describedby="contact-name-error" />
+          <span id="contact-name-error" data-error-for="name" hidden></span>
+        </p>
+
+        <p>
+          <label for="contact-email">Email</label>
+          <input id="contact-email" name="email" type="email" autocomplete="email" required
+                 aria-describedby="contact-email-error" />
+          <span id="contact-email-error" data-error-for="email" hidden></span>
+        </p>
+
+        <p>
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="5" required
+                    aria-describedby="contact-message-error"></textarea>
+          <span id="contact-message-error" data-error-for="message" hidden></span>
+        </p>
+
+        <p>
+          <button type="submit">Send message</button>
+        </p>
+
+        <p id="contact-status" role="status" aria-live="polite"></p>
+      </form>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container site-footer__inner">
-      <p class="site-footer__copy">&copy; <span data-year></span> Landing Page. All rights reserved.</p>
-    </div>
+  <footer>
+    <p>&copy; <span id="footer-year">2024</span> LandingPage2. All rights reserved.</p>
   </footer>
-
-  <script src="app.js" defer></script>
-  <script src="scripts/main.js" defer></script>
 </body>
 </html>

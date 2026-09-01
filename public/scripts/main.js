@@ -1,148 +1,105 @@
-/* helix: public/scripts/main.js */
-/* Renders the dynamic footer year and powers inline contact-form validation. */
+// helix: public/scripts/main.js
+// @helix:story [USER-675000]
+//
+// Page behaviour only — no styling. Two responsibilities:
+//   1. Render the current year into the footer copyright line.
+//   2. Provide inline validation + success handling for the contact form.
 
-(function main() {
-  "use strict";
+(function () {
+  'use strict';
 
-  /* ---------- Footer year ---------- */
-  const yearEl = document.getElementById("footer-year");
+  // ---- Footer year ----------------------------------------------------------
+  var yearEl = document.getElementById('footer-year');
   if (yearEl) {
     yearEl.textContent = String(new Date().getFullYear());
   }
 
-  /* ---------- Contact form validation ---------- */
-  const form = document.getElementById("contact-form");
+  // ---- Contact form validation ---------------------------------------------
+  var form = document.getElementById('contact-form');
+  var statusEl = document.getElementById('contact-status');
   if (!form) return;
 
-  const fields = {
-    name: {
-      el: document.getElementById("contact-name"),
-      errorEl: document.getElementById("contact-name-error"),
-      validate(value) {
-        const v = value.trim();
-        if (v.length === 0) return "Please enter your name.";
-        if (v.length < 2) return "Name must be at least 2 characters.";
-        if (v.length > 80) return "Name must be 80 characters or fewer.";
-        return "";
-      },
-    },
-    email: {
-      el: document.getElementById("contact-email"),
-      errorEl: document.getElementById("contact-email-error"),
-      // Pragmatic email pattern — not perfect, but matches realistic inputs.
-      validate(value) {
-        const v = value.trim();
-        if (v.length === 0) return "Please enter your email.";
-        if (v.length > 120) return "Email must be 120 characters or fewer.";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
-          return "Please enter a valid email address.";
-        }
-        return "";
-      },
-    },
-    message: {
-      el: document.getElementById("contact-message"),
-      errorEl: document.getElementById("contact-message-error"),
-      validate(value) {
-        const v = value.trim();
-        if (v.length === 0) return "Please enter a message.";
-        if (v.length < 10) return "Message must be at least 10 characters.";
-        if (v.length > 2000) return "Message must be 2000 characters or fewer.";
-        return "";
-      },
-    },
-  };
+  // Simple, dependency-free email shape check — sufficient for client-side hint.
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const statusEl = document.getElementById("contact-form-status");
-  const submitBtn = form.querySelector(".contact-form__submit");
+  function getErrorEl(name) {
+    return form.querySelector('[data-error-for="' + name + '"]');
+  }
 
-  function setError(field, message) {
-    if (!field || !field.el) return;
-    const wrapper = field.el.closest(".field");
-    if (wrapper) {
-      wrapper.classList.toggle("field--invalid", Boolean(message));
-    }
-    if (field.errorEl) {
-      field.errorEl.textContent = message;
-    }
+  function setFieldError(input, message) {
+    var errEl = getErrorEl(input.name);
     if (message) {
-      field.el.setAttribute("aria-invalid", "true");
+      input.setAttribute('aria-invalid', 'true');
+      if (errEl) {
+        errEl.textContent = message;
+        errEl.hidden = false;
+      }
     } else {
-      field.el.removeAttribute("aria-invalid");
+      input.removeAttribute('aria-invalid');
+      if (errEl) {
+        errEl.textContent = '';
+        errEl.hidden = true;
+      }
     }
   }
 
-  function clearStatus() {
-    if (!statusEl) return;
-    statusEl.textContent = "";
-    statusEl.classList.remove("contact-form__status--success", "contact-form__status--error");
+  function validateField(input) {
+    var value = (input.value || '').trim();
+    if (!value) {
+      var label = (form.querySelector('label[for="' + input.id + '"]') || {}).textContent || 'This field';
+      setFieldError(input, label + ' is required.');
+      return false;
+    }
+    if (input.type === 'email' && !EMAIL_RE.test(value)) {
+      setFieldError(input, 'Please enter a valid email address.');
+      return false;
+    }
+    setFieldError(input, '');
+    return true;
   }
 
-  function setStatus(message, kind) {
-    if (!statusEl) return;
-    statusEl.textContent = message;
-    statusEl.classList.remove(
-      "contact-form__status--success",
-      "contact-form__status--error"
-    );
-    if (kind === "success") statusEl.classList.add("contact-form__status--success");
-    if (kind === "error") statusEl.classList.add("contact-form__status--error");
-  }
-
-  function validateField(field) {
-    const message = field.validate(field.el.value);
-    setError(field, message);
-    return message === "";
-  }
-
-  // Validate on blur and clear errors as the user types.
-  Object.values(fields).forEach(function attachFieldEvents(field) {
-    if (!field.el) return;
-
-    field.el.addEventListener("blur", function () {
-      validateField(field);
+  // Live validation as the user fixes each field.
+  var inputs = form.querySelectorAll('input, textarea');
+  Array.prototype.forEach.call(inputs, function (input) {
+    input.addEventListener('blur', function () {
+      validateField(input);
     });
-
-    field.el.addEventListener("input", function () {
-      const wrapper = field.el.closest(".field");
-      if (wrapper && wrapper.classList.contains("field--invalid")) {
-        validateField(field);
+    input.addEventListener('input', function () {
+      // Clear the error as soon as the user starts correcting it.
+      var errEl = getErrorEl(input.name);
+      if (errEl && !errEl.hidden) {
+        setFieldError(input, '');
       }
     });
   });
 
-  form.addEventListener("submit", function onSubmit(event) {
+  form.addEventListener('submit', function (event) {
     event.preventDefault();
-    clearStatus();
 
-    let firstInvalid = null;
-    Object.values(fields).forEach(function checkField(field) {
-      const ok = validateField(field);
-      if (!ok && !firstInvalid) firstInvalid = field.el;
+    var allValid = true;
+    Array.prototype.forEach.call(inputs, function (input) {
+      if (!validateField(input)) allValid = false;
     });
 
-    if (firstInvalid) {
-      setStatus("Please fix the highlighted fields and try again.", "error");
-      firstInvalid.focus();
+    if (!allValid) {
+      if (statusEl) {
+        statusEl.textContent = 'Please fix the highlighted fields and try again.';
+      }
+      // Focus the first invalid field for keyboard users.
+      var firstInvalid = form.querySelector('[aria-invalid="true"]');
+      if (firstInvalid && typeof firstInvalid.focus === 'function') {
+        firstInvalid.focus();
+      }
       return;
     }
 
-    // Simulate submission — there is no backend in this static landing page.
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.setAttribute("aria-busy", "true");
+    // Success — in a real deployment this would POST to a server.
+    if (statusEl) {
+      statusEl.textContent = "Thanks! Your message has been received.";
     }
-
-    window.setTimeout(function simulateSuccess() {
-      setStatus("Thanks! Your message has been sent. We'll be in touch soon.", "success");
-      form.reset();
-      Object.values(fields).forEach(function resetField(field) {
-        setError(field, "");
-      });
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.removeAttribute("aria-busy");
-      }
-    }, 600);
+    form.reset();
+    Array.prototype.forEach.call(inputs, function (input) {
+      setFieldError(input, '');
+    });
   });
 })();

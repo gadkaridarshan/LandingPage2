@@ -1,5 +1,4 @@
 /* helix: public/styles.css */
-/* Entry stylesheet: composes modular section stylesheets in load order. */
-@import url("./styles/base.css");
-@import url("./styles/features.css");
-@import url("./styles/contact.css");
+/* Intentionally empty — landing page is unstyled per USER-675000.
+   Modular section stylesheets (base/hero/features/contact) are no longer
+   imported; the page renders as bare semantic HTML. */

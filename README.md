@@ -105,10 +105,12 @@ LandingPage2/
 
 ## What was built
 
-This board delivered the three core sections of the landing page as a cohesive, accessible single-page site, with **all styling removed**:
+This board delivered the three core sections of the landing page as plain, unstyled, semantically-correct HTML — then explicitly **stripped all styling back out** so the page renders as raw browser-default markup. The work was tracked across the following deliverables:
 
-- **Landing hero section** — Semantic landmark with eyebrow tag, headline, subheadline, two CTA links, and a three-item value-prop list. No gradient, no typography tweaks, no decorative orbs — pure browser defaults.
-- **Features section** — Three list items (*Lightning fast*, *Layered design*, *Accessible by default*) with inline SVG icons. No grid, no card chrome, no hover lift.
-- **Contact form section** — Labelled Name, Email, and Message inputs with appropriate `type`, `autocomplete`, and `required` attributes, inline validation messages, a status line, and a "Send message" submit button that resets the form on success. Native browser form controls only.
+- **Hero section** (`public/index.html`) — eyebrow tag, headline, subheadline, two CTAs, and a three-item supporting list. Linked through to the Features section via smooth-scroll behaviour in `public/app.js`. Rendered with no custom typography, gradient, or background.
+- **Features section** (`public/index.html`) — three feature items (*Lightning fast*, *Layered design*, *Accessible by default*) with inline SVG icons, each containing a heading and a short paragraph. Rendered as a default bulleted list rather than a styled grid.
+- **Contact form section** (`public/index.html`) — labelled form with `name`, `email`, and `message` fields, proper input types and autocomplete attributes, `required` constraints, and a "Send message" submit button. Client-side validation lives in `public/scripts/main.js`, which also renders the dynamic footer year.
+- **Remove landing page styling** — every CSS reference, inline `style` attribute, and class-based presentation hook was dropped from `index.html`. The previously-loaded `public/styles.css`, `public/styles/base.css`, `public/styles/hero.css`, `public/styles/features.css`, and `public/styles/contact.css` files are retained as empty placeholders so the modular layout stays intact, but they ship zero bytes of CSS. The page now renders with only the browser's native, unstyled defaults — no gradient, no background image, no custom typography.
+- **Author complete project README** — this document, covering prerequisites, run steps, project structure, and a deliverables summary.
 
-Together with the pair of vanilla JS modules, the result is a complete, dependency-free marketing landing page that renders as plain, unstyled HTML and can be hosted on any static-file server.
+The end result is a portable, dependency-free static landing page: serve `public/` from any static-file server or CDN and it just works, with progressive-enhancement JS handling the smooth-scroll, footer year, and inline form validation.

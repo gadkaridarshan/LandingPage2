@@ -5,14 +5,14 @@
 (function () {
     "use strict";
 
-    const cta = document.getElementById("hero-cta");
+    var cta = document.getElementById("hero-cta");
     if (!cta) return;
 
     cta.addEventListener("click", function (event) {
-        const href = cta.getAttribute("href") || "";
+        var href = cta.getAttribute("href") || "";
         if (!href.startsWith("#")) return;
 
-        const target = document.querySelector(href);
+        var target = document.querySelector(href);
         if (!target) return;
 
         event.preventDefault();

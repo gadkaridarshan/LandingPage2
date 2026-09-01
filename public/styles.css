@@ -1,5 +1,5 @@
 /* helix: public/styles.css */
-/* Composed entry point for all landing-page styles. */
-
-@import url("styles/base.css");
-@import url("styles/features.css");
+/* Entry stylesheet: composes modular section stylesheets in load order. */
+@import url("./styles/base.css");
+@import url("./styles/features.css");
+@import url("./styles/contact.css");

@@ -1,46 +1,41 @@
-// helix: public/app.js
-// Hero CTA smooth-scroll behavior with reduced-motion respect.
-/* @helix:story USER-708000 */
+/* helix: public/app.js */
+/* Wires up hero CTA smooth-scroll behavior on top of the static markup. */
 
-(function () {
+(function smoothScrollCTAs() {
   "use strict";
 
-  var prefersReducedMotion = window.matchMedia &&
+  // Respect users who prefer reduced motion — let the browser handle anchors natively.
+  const prefersReducedMotion =
+    typeof window.matchMedia === "function" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function smoothScrollTo(target) {
-    if (!target) return;
-    var top = target.getBoundingClientRect().top + window.pageYOffset - 64;
-    if (prefersReducedMotion) {
-      window.scrollTo(0, top);
-    } else {
-      window.scrollTo({ top: top, behavior: "smooth" });
-    }
-  }
+  document.addEventListener("click", function onCtaClick(event) {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
 
-  function handleCtaClick(event) {
-    var link = event.currentTarget;
-    var hash = link.getAttribute("href") || "";
-    if (hash.charAt(0) !== "#") return;
-    var target = document.getElementById(hash.slice(1));
+    const targetId = link.getAttribute("href");
+    if (!targetId || targetId === "#") return;
+
+    const target = document.querySelector(targetId);
     if (!target) return;
+
     event.preventDefault();
-    smoothScrollTo(target);
-    if (history.replaceState) {
-      history.replaceState(null, "", hash);
+
+    if (prefersReducedMotion) {
+      target.scrollIntoView({ behavior: "auto", block: "start" });
+    } else {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }
 
-  function init() {
-    var ctas = document.querySelectorAll('[data-cta="hero-primary"], .hero__actions a[href^="#"]');
-    Array.prototype.forEach.call(ctas, function (cta) {
-      cta.addEventListener("click", handleCtaClick);
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+    // Move keyboard focus for accessibility after the scroll settles.
+    if (typeof target.setAttribute === "function") {
+      if (!target.hasAttribute("tabindex")) {
+        target.setAttribute("tabindex", "-1");
+      }
+      // Defer focus slightly so smooth scroll doesn't fight the focus jump.
+      window.setTimeout(function () {
+        target.focus({ preventScroll: true });
+      }, prefersReducedMotion ? 0 : 350);
+    }
+  });
 })();

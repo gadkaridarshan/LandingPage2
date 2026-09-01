@@ -1,87 +1,148 @@
-// helix: public/scripts/main.js
-// Footer year rendering and inline contact-form validation.
+/* helix: public/scripts/main.js */
+/* Renders the dynamic footer year and powers inline contact-form validation. */
 
-(function () {
+(function main() {
   "use strict";
 
-  function setFooterYear() {
-    var year = String(new Date().getFullYear());
-    var nodes = document.querySelectorAll("[data-footer-year]");
-    Array.prototype.forEach.call(nodes, function (el) {
-      el.textContent = year;
-    });
+  /* ---------- Footer year ---------- */
+  const yearEl = document.getElementById("footer-year");
+  if (yearEl) {
+    yearEl.textContent = String(new Date().getFullYear());
   }
 
-  function showFieldError(input, message) {
-    var name = input.getAttribute("name");
-    var slot = document.querySelector('[data-error-for="' + name + '"]');
-    if (slot) slot.textContent = message || "";
-    input.setAttribute("aria-invalid", message ? "true" : "false");
-  }
+  /* ---------- Contact form validation ---------- */
+  const form = document.getElementById("contact-form");
+  if (!form) return;
 
-  function validateField(input) {
-    var value = (input.value || "").trim();
-    var type = input.getAttribute("type") || "text";
+  const fields = {
+    name: {
+      el: document.getElementById("contact-name"),
+      errorEl: document.getElementById("contact-name-error"),
+      validate(value) {
+        const v = value.trim();
+        if (v.length === 0) return "Please enter your name.";
+        if (v.length < 2) return "Name must be at least 2 characters.";
+        if (v.length > 80) return "Name must be 80 characters or fewer.";
+        return "";
+      },
+    },
+    email: {
+      el: document.getElementById("contact-email"),
+      errorEl: document.getElementById("contact-email-error"),
+      // Pragmatic email pattern — not perfect, but matches realistic inputs.
+      validate(value) {
+        const v = value.trim();
+        if (v.length === 0) return "Please enter your email.";
+        if (v.length > 120) return "Email must be 120 characters or fewer.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+          return "Please enter a valid email address.";
+        }
+        return "";
+      },
+    },
+    message: {
+      el: document.getElementById("contact-message"),
+      errorEl: document.getElementById("contact-message-error"),
+      validate(value) {
+        const v = value.trim();
+        if (v.length === 0) return "Please enter a message.";
+        if (v.length < 10) return "Message must be at least 10 characters.";
+        if (v.length > 2000) return "Message must be 2000 characters or fewer.";
+        return "";
+      },
+    },
+  };
 
-    if (input.required && value.length === 0) {
-      showFieldError(input, "This field is required.");
-      return false;
+  const statusEl = document.getElementById("contact-form-status");
+  const submitBtn = form.querySelector(".contact-form__submit");
+
+  function setError(field, message) {
+    if (!field || !field.el) return;
+    const wrapper = field.el.closest(".field");
+    if (wrapper) {
+      wrapper.classList.toggle("field--invalid", Boolean(message));
     }
-    if (type === "email" && value.length > 0) {
-      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(value)) {
-        showFieldError(input, "Please enter a valid email address.");
-        return false;
+    if (field.errorEl) {
+      field.errorEl.textContent = message;
+    }
+    if (message) {
+      field.el.setAttribute("aria-invalid", "true");
+    } else {
+      field.el.removeAttribute("aria-invalid");
+    }
+  }
+
+  function clearStatus() {
+    if (!statusEl) return;
+    statusEl.textContent = "";
+    statusEl.classList.remove("contact-form__status--success", "contact-form__status--error");
+  }
+
+  function setStatus(message, kind) {
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    statusEl.classList.remove(
+      "contact-form__status--success",
+      "contact-form__status--error"
+    );
+    if (kind === "success") statusEl.classList.add("contact-form__status--success");
+    if (kind === "error") statusEl.classList.add("contact-form__status--error");
+  }
+
+  function validateField(field) {
+    const message = field.validate(field.el.value);
+    setError(field, message);
+    return message === "";
+  }
+
+  // Validate on blur and clear errors as the user types.
+  Object.values(fields).forEach(function attachFieldEvents(field) {
+    if (!field.el) return;
+
+    field.el.addEventListener("blur", function () {
+      validateField(field);
+    });
+
+    field.el.addEventListener("input", function () {
+      const wrapper = field.el.closest(".field");
+      if (wrapper && wrapper.classList.contains("field--invalid")) {
+        validateField(field);
       }
-    }
-    if (input.minLength && value.length > 0 && value.length < input.minLength) {
-      showFieldError(input, "Please use at least " + input.minLength + " characters.");
-      return false;
-    }
-    showFieldError(input, "");
-    return true;
-  }
+    });
+  });
 
-  function initContactForm() {
-    var form = document.querySelector(".contact-form");
-    if (!form) return;
+  form.addEventListener("submit", function onSubmit(event) {
+    event.preventDefault();
+    clearStatus();
 
-    var inputs = form.querySelectorAll("input, textarea");
-    Array.prototype.forEach.call(inputs, function (input) {
-      input.addEventListener("blur", function () { validateField(input); });
-      input.addEventListener("input", function () {
-        if (input.getAttribute("aria-invalid") === "true") validateField(input);
-      });
+    let firstInvalid = null;
+    Object.values(fields).forEach(function checkField(field) {
+      const ok = validateField(field);
+      if (!ok && !firstInvalid) firstInvalid = field.el;
     });
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      var allValid = true;
-      Array.prototype.forEach.call(inputs, function (input) {
-        if (!validateField(input)) allValid = false;
-      });
+    if (firstInvalid) {
+      setStatus("Please fix the highlighted fields and try again.", "error");
+      firstInvalid.focus();
+      return;
+    }
 
-      var status = form.querySelector(".contact-form__status");
-      if (allValid) {
-        if (status) status.textContent = "Thanks! Your message has been received.";
-        form.reset();
-        Array.prototype.forEach.call(inputs, function (input) {
-          input.setAttribute("aria-invalid", "false");
-        });
-      } else if (status) {
-        status.textContent = "Please fix the highlighted fields and try again.";
+    // Simulate submission — there is no backend in this static landing page.
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.setAttribute("aria-busy", "true");
+    }
+
+    window.setTimeout(function simulateSuccess() {
+      setStatus("Thanks! Your message has been sent. We'll be in touch soon.", "success");
+      form.reset();
+      Object.values(fields).forEach(function resetField(field) {
+        setError(field, "");
+      });
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute("aria-busy");
       }
-    });
-  }
-
-  function init() {
-    setFooterYear();
-    initContactForm();
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+    }, 600);
+  });
 })();

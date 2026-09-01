@@ -1,8 +1,8 @@
-# LandingPage2
+# LandingPage2 — Launchpad landing page
 
-A bare, unstyled single-page HTML document for a modern product launch. LandingPage2 ships a semantic **hero section**, a **features list**, and a validated **contact form** in plain HTML with progressive-enhancement JavaScript — **no build step required** and **no styling applied**.
+A polished, dependency-free, single-page product landing site. LandingPage2 ships three production sections — a **hero**, a **features grid**, and a **contact form** — built with semantic HTML, modern CSS (custom properties + responsive grid + media queries), and a small amount of vanilla JavaScript for progressive enhancement. There is **no build step**, no package manager, no environment variables, and no external services to configure.
 
-The site is intentionally lightweight: a single `public/index.html` document and a pair of vanilla JS modules (`public/app.js` for the hero CTA smooth-scroll and `public/scripts/main.js` for the dynamic footer year and inline contact-form validation). Everything is plain static assets and can be hosted on any static-file server or CDN — no package manager, no `npm install`, no environment variables, and no external services required. The page renders as raw, browser-default HTML — no CSS, no background, no visual polish.
+The site is intentionally lightweight. Every asset is plain static and lives under the `public/` directory, so it can be hosted on any static-file server or CDN: drop the folder on a host and it works.
 
 ---
 
@@ -18,7 +18,7 @@ Additional requirements:
 - A modern evergreen browser (Chrome, Firefox, Safari, or Edge) to view and interact with the page.
 - A terminal with a POSIX-compatible shell (`bash`, `zsh`, or equivalent) to run the commands below.
 
-No package manager, no `npm install` step, no environment variables, and no external services are required — the assets are plain HTML and JS served as static files. There is no stylesheet to load: the page is intentionally unstyled.
+No package manager, no `npm install` step, no environment variables, and no external services are required — the assets are plain HTML, CSS, and JS served as static files.
 
 ---
 
@@ -53,18 +53,39 @@ Follow these steps to serve the site from the `public/` directory and verify it 
    http://localhost:8000/
    ```
 
-3. **Verify success — the page must show all three sections rendered as plain, unstyled HTML:**
-   - **Hero section**: an eyebrow tag ("Built for teams that ship"), a headline ("Launch your next idea with a pixel-perfect landing page."), a subheadline, two text links (the CTAs), and a three-item list ("100% static", "A11y ready", "0 build steps"). No background, no gradient, no custom typography — only the browser's default styling.
-   - **Features list**: a heading ("Everything you need to launch") followed by three list items (*Lightning fast*, *Layered design*, *Accessible by default*) rendered as a bulleted list, each with a heading and a paragraph. No grid, no card chrome, no icons are styled.
-   - **Contact form**: a labelled form with Name, Email, and Message fields plus a "Send message" submit button, all using the browser's native form controls.
+3. **Verify the hero section.** You should see:
+   - An eyebrow tag reading **"New · Launchpad v1.0"** in a pill.
+   - A large display headline: **"Ship a landing page that converts in an afternoon."** with "converts" highlighted.
+   - A subheading paragraph below the headline.
+   - Two call-to-action buttons side-by-side: a primary **"Get started — it's free"** and a ghost **"See the features"**.
+   - A three-item highlight row: **Zero build step · Accessible by default · Drop-in for any static host**.
+   - A layered background with a faint grid mask and three soft purple/cyan glows.
 
-4. **Verify the interactive behaviour:**
-   - Click the primary hero CTA ("Explore features") — it should smooth-scroll down to the Features section (handled by `public/app.js`, with reduced-motion respected).
-   - Scroll to the footer — the copyright year should reflect the current year (rendered dynamically by `public/scripts/main.js`).
-   - Submit the contact form with empty fields — inline validation messages should appear under each field and a status line should prompt you to fix the errors (handled by `public/scripts/main.js`).
-   - Submit the contact form with valid data — a "Thanks! Your message has been received." status should appear and the form should reset.
+4. **Verify the features section** (scroll down or click **"See the features"**). You should see:
+   - A section eyebrow **"Features"** and the heading **"Everything you need to launch — nothing you don't."**
+   - A 3-column responsive grid of six feature cards, each with an icon tile, a title, and a description:
+     - Ship in minutes
+     - Pixel-perfect design
+     - Accessible by default
+     - Responsive everywhere
+     - Production-ready
+     - Easy to customize
+   - The grid collapses to 2 columns around 960px and to a single column below 640px.
 
-5. **Stop the server** when you're done by pressing `Ctrl + C` in the terminal.
+5. **Verify the contact section** (scroll down or click the **"Get started"** CTA). You should see:
+   - A heading **"Let's build something people want."** with a short subheading.
+   - A form with **Name**, **Email**, and **Message** fields plus a **"Send message"** primary button.
+   - Each field shows a focus ring; required fields block empty submission and show inline validation messages.
+   - A polite live region under the button reports success or error status.
+
+6. **Verify the interactive behaviour:**
+   - Click the primary hero CTA ("Get started — it's free") — it smooth-scrolls to the Contact section.
+   - Click the ghost CTA ("See the features") — it smooth-scrolls to the Features section.
+   - Scroll to the footer — the copyright year should reflect the current year.
+   - Submit the contact form with empty fields — inline validation messages appear under each field and the status line prompts you to fix the errors.
+   - Submit the contact form with valid data — a "Thanks! Your message has been received." status appears and the form resets.
+
+7. **Stop the server** when you're done by pressing `Ctrl + C` in the terminal.
 
 ---
 
@@ -81,36 +102,40 @@ LandingPage2/
 ├── HelixCardInventory.md           # Helix board bookkeeping
 ├── HelixGrandProjectSummary.md     # Helix board bookkeeping
 └── public/                         # Static site assets (serve this directory)
-    ├── index.html                  # The single HTML document (unstyled)
-    ├── app.js                      # Hero CTA smooth-scroll behaviour
+    ├── index.html                  # The single HTML document — wires all CSS + JS
+    ├── app.js                      # Hero CTA smooth-scroll behaviour (vanilla JS)
     ├── styles.css                  # Empty entry stylesheet (kept for backwards compatibility)
-    ├── styles/                     # Empty section stylesheets (kept for backwards compatibility)
-    │   ├── base.css
-    │   ├── hero.css
-    │   ├── features.css
-    │   └── contact.css
+    ├── styles/                     # Section stylesheets — design tokens + section styles
+    │   ├── base.css                # Design tokens, reset, typography, layout primitives
+    │   ├── hero.css                # Hero section (background, headline, CTAs)
+    │   ├── features.css            # Features grid + feature cards
+    │   └── contact.css             # Contact section + form styling
     └── scripts/
         └── main.js                 # Footer year + contact form validation
 ```
 
 ### Path notes:
 
-- `public/index.html` — the only HTML document; loads both JS modules. No stylesheet is referenced.
-- `public/app.js` — top-level module referenced by `index.html` for hero CTA behaviour.
-- `public/scripts/main.js` — secondary module referenced by `index.html` for the footer year and contact form.
-- `public/styles.css` and `public/styles/*.css` — intentionally empty. They are retained as zero-content files so existing references and the modular layout remain in place, but they do not load any CSS.
+- `public/index.html` — the only HTML document; loads Inter + Sora from Google Fonts, then the four section stylesheets, then the two JS modules (`scripts/main.js` first, `app.js` second, both `defer`).
+- `public/styles/base.css` — defines CSS custom properties for colors, type, spacing, radius, and shadows, plus a small reset and `.container` layout primitive used by every section.
+- `public/styles/hero.css` — hero background grid + glows, eyebrow pill, headline, subheading, CTAs, and bullets.
+- `public/styles/features.css` — features header and the responsive 3 / 2 / 1-column feature-card grid.
+- `public/styles/contact.css` — contact section layout, fields, inputs, focus states, submit button, and the live status region.
+- `public/app.js` — top-level module referenced by `index.html` for hero CTA smooth-scroll behaviour (respects `prefers-reduced-motion`).
+- `public/scripts/main.js` — secondary module referenced by `index.html` for the dynamic footer year and inline contact-form validation.
+- `public/styles.css` — intentionally empty placeholder kept so the legacy reference path resolves.
 - `HelixCardInventory.md` and `HelixGrandProjectSummary.md` — Helix board bookkeeping; not served to the browser.
 
 ---
 
 ## What was built
 
-This board delivered the three core sections of the landing page as plain, unstyled, semantically-correct HTML — then explicitly **stripped all styling back out** so the page renders as raw browser-default markup. The work was tracked across the following deliverables:
+This board delivered the three core sections of the landing page as a complete, styled, responsive, accessible product site. The work was tracked across the following deliverables:
 
-- **Hero section** (`public/index.html`) — eyebrow tag, headline, subheadline, two CTAs, and a three-item supporting list. Linked through to the Features section via smooth-scroll behaviour in `public/app.js`. Rendered with no custom typography, gradient, or background.
-- **Features section** (`public/index.html`) — three feature items (*Lightning fast*, *Layered design*, *Accessible by default*) with inline SVG icons, each containing a heading and a short paragraph. Rendered as a default bulleted list rather than a styled grid.
-- **Contact form section** (`public/index.html`) — labelled form with `name`, `email`, and `message` fields, proper input types and autocomplete attributes, `required` constraints, and a "Send message" submit button. Client-side validation lives in `public/scripts/main.js`, which also renders the dynamic footer year.
-- **Remove landing page styling** — every CSS reference, inline `style` attribute, and class-based presentation hook was dropped from `index.html`. The previously-loaded `public/styles.css`, `public/styles/base.css`, `public/styles/hero.css`, `public/styles/features.css`, and `public/styles/contact.css` files are retained as empty placeholders so the modular layout stays intact, but they ship zero bytes of CSS. The page now renders with only the browser's native, unstyled defaults — no gradient, no background image, no custom typography.
+- **Hero section** (`public/index.html` + `public/styles/hero.css`) — eyebrow pill, display headline with an accent span, subheading, primary and ghost CTAs, and a three-item highlight row. Backed by a layered background made of a radial-masked grid plus three soft brand/cyan glows. The CTAs smooth-scroll to the Features and Contact sections via `public/app.js`, with `prefers-reduced-motion` respected.
+- **Features grid** (`public/index.html` + `public/styles/features.css`) — a six-card responsive grid (3 columns → 2 columns at ≤960px → 1 column at ≤640px). Each card has an icon tile, a title, and a short description, rendered with a subtle gradient surface, border, and lift-on-hover/focus shadow that reveals an accent glow.
+- **Contact form section** (`public/index.html` + `public/styles/contact.css`) — labelled form with Name, Email, and Message fields, proper input types and autocomplete attributes, `required` constraints, focus styles, and a primary "Send message" button. Inline validation and the live status region are handled by `public/scripts/main.js`, which also renders the dynamic footer year.
+- **Design system foundation** (`public/styles/base.css`) — a single source of truth for colors, typography (Inter + Sora), spacing, radius, shadows, and the `.container` layout primitive used by every section. Rebranding the whole site is a matter of swapping a handful of CSS custom properties.
 - **Author complete project README** — this document, covering prerequisites, run steps, project structure, and a deliverables summary.
 
-The end result is a portable, dependency-free static landing page: serve `public/` from any static-file server or CDN and it just works, with progressive-enhancement JS handling the smooth-scroll, footer year, and inline form validation.
+The end result is a portable, dependency-free static landing page: serve `public/` from any static-file server or CDN and it just works, with progressive-enhancement JS handling smooth-scroll, the footer year, and inline form validation, and with all styling living in plain, editable CSS.
